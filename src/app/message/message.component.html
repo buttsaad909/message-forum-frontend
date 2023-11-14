@@ -1,0 +1,13 @@
+<div>
+  <div *ngFor="let message of messages" class="message">
+    <p>{{ message.author }}</p>
+    <p>{{ message.timestamp | date : "medium" }}</p>
+    <p>{{ message.content }}</p>
+    <button (click)="addComment(message)">Add Comment</button>
+    <div *ngFor="let comment of message.comments" class="comment">
+      <p>{{ comment.author }}</p>
+      <p>{{ comment.timestamp | date : "medium" }}</p>
+      <p>{{ comment.content }}</p>
+    </div>
+  </div>
+</div>
