@@ -9,14 +9,34 @@ import { HttpClient } from '@angular/common/http';
 export class MessageComponent {
   messages: any[] = [];
   newMessage = { author: '', content: '' };
+  newComment = { author: '', content: '' };
 
   constructor(private http: HttpClient) {
     this.getMessages();
   }
 
+  // Retrieving all the messages and comments
   getMessages() {
     this.http.get<any[]>('http://localhost:3010/api/allmessages')
       .subscribe(data => this.messages = data);
+  }
+
+  // Posting the message
+  postMessage() {
+    this.http.post('http://localhost:3010/api/message', this.newMessage)
+      .subscribe(() => {
+        this.getMessages();
+        this.newMessage = { author: '', content: '' };
+    });
+  }
+
+  // Posting the comment of the specific message
+  addComment(message: any) {
+    this.http.post(`http://localhost:3000/api/messages/${message._id}/comments`, this.newComment)
+      .subscribe(() => {
+          this.getMessages();
+          this.newComment = { author: '', content: '' };
+        });
   }
 
 }

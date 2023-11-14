@@ -1,3 +1,13 @@
+<form (ngSubmit)="postMessage()">
+  <label for="author">Your Name:</label>
+  <input type="text" id="author" required [(ngModel)]="newMessage.author" />
+  <br />
+  <label for="content">Message:</label>
+  <textarea id="content" required [(ngModel)]="newMessage.content"></textarea>
+  <br />
+  <button type="submit">Post Message</button>
+</form>
+
 <div>
   <div *ngFor="let message of messages" class="message">
     <p>{{ message.author }}</p>
