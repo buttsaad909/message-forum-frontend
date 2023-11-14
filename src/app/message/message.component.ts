@@ -15,6 +15,11 @@ export class MessageComponent {
     this.getMessages();
   }
 
+  // Hide form upon submission
+  toggleCommentForm(message: any) {
+    message.showCommentForm = !message.showCommentForm;
+  }
+
   // Retrieving all the messages and comments
   getMessages() {
     this.http.get<any[]>('http://localhost:3010/api/allmessages')
@@ -32,7 +37,7 @@ export class MessageComponent {
 
   // Posting the comment of the specific message
   addComment(message: any) {
-    this.http.post(`http://localhost:3000/api/messages/${message._id}/comments`, this.newComment)
+    this.http.post(`http://localhost:3010/api/message/${message._id}/comments`, this.newComment)
       .subscribe(() => {
           this.getMessages();
           this.newComment = { author: '', content: '' };

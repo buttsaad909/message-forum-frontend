@@ -6,3 +6,23 @@
   width: 100%;
   margin-bottom: 30px;
 }
+
+.comment-button {
+  margin-top: 5px;
+}
+
+.custom-dotted-border {
+  border-bottom: 1px dashed #ccc;
+}
+
+.right-border {
+  border-right: 1px solid #ccc;
+}
+
+.comment {
+  background-color: #FFF8E2;
+}
+
+.message-contianer {
+  background-color: #F2FDFF;
+}

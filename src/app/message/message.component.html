@@ -1,4 +1,5 @@
 <div class="col-md-6 offset-md-3">
+
   <form (ngSubmit)="postMessage()" #messageForm="ngForm">
 
     <label for="author" class="form-label">Your Name:</label>
@@ -12,19 +13,74 @@
       Message is required and must be at least 4 characters.
     </div>
     <br />
+
     <button type="submit" class="btn btn-primary post-message" [disabled]="!messageForm.valid">Post Message</button>
+
   </form>
 
-  <div>
-    <div *ngFor="let message of messages" class="message">
-      <p>{{ message.author }}</p>
-      <p>{{ message.timestamp | date : "medium" }}</p>
-      <p>{{ message.content }}</p>
+  <div [style.margin-bottom.px]="'20'">
 
-      <div *ngFor="let comment of message.comments" class="comment">
-        <p>{{ comment.author }}</p>
-        <p>{{ comment.timestamp | date : "medium" }}</p>
-        <p>{{ comment.content }}</p>
+    <div *ngFor="let message of messages" class="message">
+
+      <div class="row border-bottom mb-3 message-contianer">
+
+        <div class="col-md-2 right-border">
+          <strong>{{ message.author }}</strong>
+        </div>
+
+        <div class="col-md-2 right-border">
+          <span>{{ message.timestamp | date : "medium" }}</span>
+        </div>
+
+        <div class="col-md-6 right-border">
+          <p>{{ message.content }}</p>
+        </div>
+
+        <div class="col-md-2">
+          <button (click)="toggleCommentForm(message)" class="btn btn-success comment-button">Add Comment</button>
+        </div>
+
+      </div>
+
+      <div *ngFor="let comment of message.comments" class="comment custom-dotted-border mt-2">
+
+        <div class="row">
+
+          <div class="col-md-2 right-border">
+            <p>{{ comment.author }}</p>
+          </div>
+
+          <div class="col-md-2 right-border">
+            <span>{{ comment.timestamp | date : "medium" }}</span>
+          </div>
+
+          <div class="col-md-6">
+            <p>{{ comment.content }}</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div *ngIf="message.showCommentForm" class="comment-form">
+
+        <form (ngSubmit)="addComment(message)" #commentForm="ngForm" class="mb-2">
+
+          <div class="form-group">
+            <label for="commentAuthor" class="form-label">Your Name:</label>
+            <input type="text" class="form-control" id="author" minlength="3" name="author" required [(ngModel)]="newComment.author" />
+            <div *ngIf="!author.valid && (author.dirty || author.touched)" class="text-danger">Your Name is required and must be at least 3 characters.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="commentContent" class="form-label">Comment:</label>
+            <textarea class="form-control" id="content" name="content" minlength="4" required [(ngModel)]="newComment.content"></textarea>
+            <div *ngIf="!content.valid && (content.dirty || content.touched)" class="text-danger">Comment is required and must be at least 4 characters.</div>
+          </div>
+
+          <button type="submit" class="btn btn-primary post-message" [disabled]="!commentForm.valid">Post Comment</button>
+
+        </form>
       </div>
     </div>
   </div>
