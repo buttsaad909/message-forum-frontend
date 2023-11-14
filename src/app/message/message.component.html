@@ -1,23 +1,31 @@
-<form (ngSubmit)="postMessage()">
-  <label for="author">Your Name:</label>
-  <input type="text" id="author" required [(ngModel)]="newMessage.author" />
-  <br />
-  <label for="content">Message:</label>
-  <textarea id="content" required [(ngModel)]="newMessage.content"></textarea>
-  <br />
-  <button type="submit">Post Message</button>
-</form>
+<div class="col-md-6 offset-md-3">
+  <form (ngSubmit)="postMessage()" #messageForm="ngForm">
 
-<div>
-  <div *ngFor="let message of messages" class="message">
-    <p>{{ message.author }}</p>
-    <p>{{ message.timestamp | date : "medium" }}</p>
-    <p>{{ message.content }}</p>
-    <button (click)="addComment(message)">Add Comment</button>
-    <div *ngFor="let comment of message.comments" class="comment">
-      <p>{{ comment.author }}</p>
-      <p>{{ comment.timestamp | date : "medium" }}</p>
-      <p>{{ comment.content }}</p>
+    <label for="author" class="form-label">Your Name:</label>
+    <input type="text" class="form-control" id="author" minlength="3" #author="ngModel" name="author" required [(ngModel)]="newMessage.author" />
+    <div *ngIf="!author.valid && (author.dirty || author.touched)" class="text-danger">Your Name is required and must be at least 3 characters.</div>
+    <br />
+
+    <label for="content" class="form-label">Message:</label>
+    <textarea id="content" class="form-control" #content="ngModel" name="content" minlength="4" required [(ngModel)]="newMessage.content"></textarea>
+    <div *ngIf="!content.valid && (content.dirty || content.touched)" class="text-danger">
+      Message is required and must be at least 4 characters.
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary post-message" [disabled]="!messageForm.valid">Post Message</button>
+  </form>
+
+  <div>
+    <div *ngFor="let message of messages" class="message">
+      <p>{{ message.author }}</p>
+      <p>{{ message.timestamp | date : "medium" }}</p>
+      <p>{{ message.content }}</p>
+
+      <div *ngFor="let comment of message.comments" class="comment">
+        <p>{{ comment.author }}</p>
+        <p>{{ comment.timestamp | date : "medium" }}</p>
+        <p>{{ comment.content }}</p>
+      </div>
     </div>
   </div>
 </div>
